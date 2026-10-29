@@ -1,0 +1,16 @@
+# Tools downloaded by setup.bat (only the README and npm manifest are tracked)
+/bin/*
+!/bin/README.md
+!/bin/npm-tools/
+/bin/npm-tools/*
+!/bin/npm-tools/package.json
+!/bin/npm-tools/package-lock.json
+
+# Fonts: downloaded by setup.bat or added by the user (licences vary)
+/source/_fonts/*
+!/source/_fonts/README.md
+
+# Generated
+/output/
+*.vsix
+.md2pdf-*.typ

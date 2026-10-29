@@ -1,0 +1,9 @@
+{
+  "name": "md2pdf-npm-tools",
+  "private": true,
+  "description": "Tools for building / testing work/vscode-preview (see bin/README.md)",
+  "devDependencies": {
+    "@vscode/vsce": "4.0.0",
+    "markdown-it": "14.3.2"
+  }
+}

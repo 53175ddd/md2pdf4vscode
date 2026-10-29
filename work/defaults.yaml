@@ -1,0 +1,35 @@
+# pandoc defaults file used by md2pdf.ps1
+# bracketed_spans enables [text]{color=red}; work/color.lua turns it into coloured text.
+# east_asian_line_breaks drops a line break between two East Asian characters
+# (otherwise it becomes a space in the PDF).
+from: gfm+yaml_metadata_block+bracketed_spans+east_asian_line_breaks
+standalone: true
+# Typst styles (inline code look, ...)
+include-in-header:
+  - ${.}/style.typ
+filters:
+  # <!-- origin: N --> turns on automatic numbering of ## / ### / #### headings
+  - ${.}/numbering.lua
+  - ${.}/color.lua
+  # <!-- pagebreak --> on its own line becomes a page break
+  - ${.}/pagebreak.lua
+  # :icon_name: becomes the image source/_icons/icon_name.(svg|png|...)
+  - ${.}/icons.lua
+  # an image alone in its paragraph gets a drop shadow (shadow-image in style.typ)
+  - ${.}/shadow.lua
+variables:
+  lang: ja
+  papersize: a4
+  margin:
+    x: 20mm
+    y: 20mm
+  # pandoc's Typst template accepts only one mainfont; for glyphs missing
+  # from it (or if it is not installed) Typst falls back to other fonts.
+  mainfont: Noto Serif JP
+  # codefont accepts a priority list; Typst falls back per glyph.
+  # A Latin monospace font comes first: Japanese fonts draw "\\" as a yen sign,
+  # which breaks Windows paths. Japanese characters fall back to BIZ UDGothic.
+  codefont:
+    - Consolas
+    - BIZ UDGothic
+    - MS Gothic

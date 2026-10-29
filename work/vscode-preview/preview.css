@@ -1,0 +1,45 @@
+/* Styles that make the VS Code Markdown preview resemble md2pdf's PDF output.
+   Values follow work/style.typ. */
+
+/* :icon_name: — text-height inline icon */
+img.md2pdf-icon {
+  height: 1em;
+  width: auto;
+  vertical-align: -0.15em;
+  margin: 0;
+  box-shadow: none;
+}
+
+/* Inline code: light background, thin border, reddish text */
+:not(pre) > code {
+  background-color: #f3f4f6;
+  border: 0.5pt solid #d0d7de;
+  border-radius: 2pt;
+  color: #c7254e;
+  padding: 0 2.5pt;
+  font-family: Consolas, "BIZ UDGothic", "MS Gothic", monospace;
+}
+
+/* Image alone in its paragraph: drop shadow */
+img.md2pdf-shadow {
+  box-shadow: 1.5pt 2.5pt 6pt rgba(0, 0, 0, 0.35);
+  margin-bottom: 6pt;
+}
+
+/* <!-- pagebreak --> : dashed line labelled "改ページ" */
+.md2pdf-pagebreak {
+  position: relative;
+  margin: 2em 0;
+  border-top: 2px dashed #9ca3af;
+}
+.md2pdf-pagebreak::after {
+  content: "\6539\30DA\30FC\30B8"; /* 改ページ */
+  position: absolute;
+  top: -0.8em;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 0.6em;
+  font-size: 0.8em;
+  color: #6b7280;
+  background-color: var(--vscode-editor-background, #ffffff);
+}
