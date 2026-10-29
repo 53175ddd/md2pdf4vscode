@@ -25,6 +25,9 @@ variables:
     y: 20mm
   # pandoc's Typst template accepts only one mainfont; for glyphs missing
   # from it (or if it is not installed) Typst falls back to other fonts.
+  # setup.bat puts Noto Serif JP in source/_fonts/; md2pdf.ps1 passes that
+  # folder to Typst (--font-path), so fonts there need no installation.
+  # To use another font, see README.md.
   mainfont: Noto Serif JP
   # codefont accepts a priority list; Typst falls back per glyph.
   # A Latin monospace font comes first: Japanese fonts draw "\\" as a yen sign,

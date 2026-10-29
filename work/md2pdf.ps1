@@ -1,6 +1,9 @@
 # Compile every Markdown file under source/ into output/ as PDF,
 # keeping the directory structure:
 #   source/hoge/fuga/piyo.md -> output/hoge/fuga/piyo.pdf
+# Entries directly under source/ whose name starts with "_" (source/_icons,
+# source/_fonts, ...) are resources, not documents, and are skipped.
+# Fonts in source/_fonts/ (any depth) are used in addition to system fonts.
 # Tools: bin/pandoc-3.12.1/pandoc.exe (Markdown -> Typst)
 #        bin/typst-0.15.1/typst.exe   (Typst -> PDF)
 # Layout and font settings live in work/defaults.yaml.
@@ -13,14 +16,20 @@ $Typst    = Join-Path $Root 'bin\typst-0.15.1\typst.exe'
 $Defaults = Join-Path $PSScriptRoot 'defaults.yaml'
 $Source   = Join-Path $Root 'source'
 $Output   = Join-Path $Root 'output'
+$Fonts    = Join-Path $Source '_fonts'
 
 foreach ($exe in $Pandoc, $Typst, $Defaults) {
-    if (-not (Test-Path $exe)) { Write-Host "ERROR: not found: $exe"; exit 2 }
+    if (-not (Test-Path $exe)) { Write-Host "ERROR: not found: $exe (run setup.bat first)"; exit 2 }
 }
 if (-not (Test-Path $Source)) { New-Item -ItemType Directory $Source | Out-Null }
 
+$typstFontArgs = @()
+if (Test-Path $Fonts) { $typstFontArgs = @('--font-path', $Fonts) }
+
 $files = @(Get-ChildItem -Path $Source -Recurse -File -Filter '*.md' |
-    Where-Object { $_.Extension -eq '.md' } | Sort-Object FullName)
+    Where-Object { $_.Extension -eq '.md' } |
+    Where-Object { -not $_.FullName.Substring($Source.Length).TrimStart('\').StartsWith('_') } |
+    Sort-Object FullName)
 if ($files.Count -eq 0) { Write-Host "No .md files in $Source"; exit 0 }
 
 $ok = 0; $failed = @()
@@ -38,7 +47,7 @@ foreach ($file in $files) {
     try {
         & $Pandoc $file.FullName "--defaults=$Defaults" -o $typ
         # Typst may read files (images) anywhere under source/
-        if ($LASTEXITCODE -eq 0) { & $Typst compile --root $Source $typ $pdf }
+        if ($LASTEXITCODE -eq 0) { & $Typst compile --root $Source @typstFontArgs $typ $pdf }
     } finally {
         if (Test-Path $typ) { Remove-Item $typ }
     }
