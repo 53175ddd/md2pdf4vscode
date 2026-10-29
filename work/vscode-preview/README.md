@@ -14,12 +14,22 @@ VS Code 標準の Markdown プレビューを、md2pdf が出力する PDF に�
 
 ## ビルドとインストール
 
+リポジトリ直下の `setup.bat` が、ビルドとインストールまで行う（Node.js と VS Code の `code` コマンドが必要）。手で行う場合は、`setup.bat` を一度実行して `bin\npm-tools\` を用意したあと、リポジトリ直下で次を実行する。
+
 ```bat
-cd /d D:\_claude\md2pdf\work\vscode-preview
+cd work\vscode-preview
 ..\..\bin\npm-tools\node_modules\.bin\vsce package --skip-license --allow-missing-repository -o md2pdf-preview.vsix
 code --install-extension md2pdf-preview.vsix --force
 ```
 
 インストールしたあと、開いているプレビューを一度閉じて開き直すと反映される（または VS Code を再読み込みする）。
 
-`work/vscode-preview/test/render.js` で、VS Code を使わずにテスト用の md を HTML に変換して確認できる。
+## テスト
+
+VS Code を使わずに、テスト用の md を HTML に変換して確認できる（リポジトリ直下で実行）。
+
+```bat
+node work\vscode-preview\test\render.js work\vscode-preview\test\edge.md %TEMP%\edge.html source\edge.md
+```
+
+3 つ目の引数は、プレビューが「開いている文書」とみなす場所。アイコンはそこから上のフォルダへたどって、最初に見つかった `_icons` から探す。
