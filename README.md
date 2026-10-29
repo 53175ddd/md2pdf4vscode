@@ -147,6 +147,7 @@ GitHub の Markdown（GFM）に加えて、次の書き方が使えます。
 
 ```
 md2pdf4vscode/
+├─ LICENSE                  MIT License
 ├─ setup.bat                ツールとフォントのセットアップ
 ├─ run.bat                  変換（source/ → output/）
 ├─ bin/                     ツール（setup.bat が入れる。README.md 以外は Git の管理外）
@@ -174,7 +175,8 @@ md2pdf4vscode/
 
 ## ライセンス
 
-このリポジトリには、ライセンスファイルをまだ置いていません。
+このリポジトリのスクリプト、設定、拡張機能、デモ用の文書と画像は、MIT License で提供します（[LICENSE](LICENSE)）。
+
 `setup.bat` でダウンロードするものは、それぞれの作者のライセンスに従います。
 
 - pandoc: GPL-2.0-or-later
