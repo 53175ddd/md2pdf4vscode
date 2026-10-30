@@ -2,7 +2,7 @@
   "name": "md2pdf-preview",
   "displayName": "md2pdf Preview",
   "description": "Makes the built-in Markdown preview look like md2pdf's PDF output: :icon_name: icons, [text]{color=...}, <!-- origin: N --> heading numbers, <!-- pagebreak -->, inline code and image styles.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "local-md2pdf",
   "private": true,
   "license": "MIT",

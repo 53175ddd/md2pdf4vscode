@@ -43,3 +43,24 @@ img.md2pdf-shadow {
   color: #6b7280;
   background-color: var(--vscode-editor-background, #ffffff);
 }
+
+/* Code blocks (```): background and thin border (style.typ: code-block-*).
+   Translucent grey so it also works with dark themes. */
+pre {
+  background-color: rgba(127, 127, 127, 0.08) !important;
+  border: 0.5pt solid rgba(127, 127, 127, 0.35);
+  border-radius: 3pt;
+  padding: 7pt 8pt !important;
+}
+
+/* Block quotes (>): background plus a bar on the left (style.typ: quote-*) */
+blockquote {
+  background-color: rgba(127, 127, 127, 0.1) !important;
+  border-left: 3pt solid rgba(127, 127, 127, 0.45) !important;
+  border-radius: 0 3pt 3pt 0;
+  padding: 7pt 8pt 7pt 10pt !important;
+  margin-left: 0;
+  margin-right: 0;
+}
+blockquote > :first-child { margin-top: 0; }
+blockquote > :last-child { margin-bottom: 0; }
