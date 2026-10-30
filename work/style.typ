@@ -86,3 +86,60 @@
     },
   )
 })
+
+// Italic (*text* / _text_). Typst does not slant fonts that have no italic
+// face, and Noto Serif JP has none, so emphasis would look like plain text.
+// - Latin: taken from Cambria, which has a real italic and ships with Windows.
+//   (emph itself switches the style to italic; setting style here too would
+//   toggle it back to upright.)
+// - Japanese: no Japanese font has an italic, so each character is slanted
+//   with skew(), like a browser's synthetic oblique. Each character is its own
+//   box so the line can still break inside the emphasis; a zero-width space
+//   marks the break points, except before characters that must not start a
+//   line (small kana, prolonged sound mark, iteration marks).
+#let emph-latin-font = "Cambria"
+#let emph-cjk-font   = "Noto Serif JP"  // keep in line with mainfont in defaults.yaml
+#let emph-slant      = 12deg
+#let emph-no-break-before = "ーぁぃぅぇぉっゃゅょゎゕゖァィゥェォッャュョヮヵヶ々ゝゞヽヾ"
+
+#let emph-oblique(c) = box(skew(ax: -emph-slant, reflow: false, c))
+
+#show emph: set text(font: (emph-latin-font, emph-cjk-font))
+#show emph: it => {
+  show regex("[\p{Han}\p{Hiragana}\p{Katakana}ー々〆ヶ]+"): run => {
+    let chars = run.text.clusters()
+    for (i, c) in chars.enumerate() {
+      if i > 0 and not emph-no-break-before.contains(c) { sym.zws }
+      emph-oblique(c)
+    }
+  }
+  it
+}
+
+// Code blocks (```): light grey background with a thin border, like GitHub / Discord.
+#let code-block-fill   = rgb("#f6f8fa")
+#let code-block-stroke = rgb("#d0d7de")
+
+#show raw.where(block: true): it => block(
+  width: 100%,
+  fill: code-block-fill,
+  stroke: 0.5pt + code-block-stroke,
+  radius: 3pt,
+  inset: (x: 8pt, y: 7pt),
+  it,
+)
+
+// Block quotes (>): background plus a bar on the left, instead of Typst's
+// plain indentation.
+#let quote-fill = rgb("#f3f4f6")
+#let quote-bar  = rgb("#c4c9d0")
+#let quote-text = rgb("#4b5563")
+
+#show quote.where(block: true): it => block(
+  width: 100%,
+  fill: quote-fill,
+  stroke: (left: 3pt + quote-bar),
+  radius: (right: 3pt),
+  inset: (left: 10pt, right: 8pt, y: 7pt),
+  text(fill: quote-text, it.body),
+)
